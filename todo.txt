@@ -1,0 +1,20 @@
+Code
+- menu
+- camera
+- bounce
+- zero g
+- ultra dash
+- train time table
+- level 0
+- level 5
+- level 10
+
+Design
+- square animation
+	- stoped
+	- start running
+	- running
+	- stop running
+	- jumping
+	- flying
+- basic tiles
