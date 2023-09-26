@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.scripts.physics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static Assets.scripts.physics.JumpMovement;
 using static JetPackMovement;
 
@@ -151,6 +152,11 @@ public class PizzaMan : MonoBehaviour
         xInput = context.ReadValue<Vector2>().x;
     }
 
+    public void openMenu(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene("menu");
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(LayerMask.LayerToName(collision.gameObject.layer) + ", " + fuelLayerName);
@@ -167,5 +173,19 @@ public class PizzaMan : MonoBehaviour
         {
             isRefillColided = false;
         }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.collider.tag);
+        if(collision.collider.tag == "death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    public void OnCollisionExit2D(Collision2D collision)
+    {
+
     }
 }
