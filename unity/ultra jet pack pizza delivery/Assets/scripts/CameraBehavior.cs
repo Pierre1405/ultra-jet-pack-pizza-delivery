@@ -4,15 +4,60 @@ using UnityEngine;
 
 public class CameraBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject salaryMan;
+    public GameObject salaryManRender;
+    public GameObject colliderParent;
+    public float xPositionAdaptater;
+    public float cameraTransitionDuration;
+
+    private float deltaPosition = 0;
+    private float targetDeltaPosition = 0;
+    private float minXCamera;
+    private float maxXCamera;
+    private float minYCamera;
+    private float maxYCamera;
+    private float targetPosition;
+    private float nextPosition;
+    private Camera camera;
+    private Bounds allColiderBounds = new Bounds();
+
     void Start()
     {
-        
+        camera = this.GetComponent<Camera>();
+        Collider2D[] allColider = colliderParent.GetComponentsInChildren<Collider2D>();
+        foreach(Collider2D collider in allColider)
+        {
+            allColiderBounds.Encapsulate(collider.bounds);
+        }
+        float screenHeight = camera.orthographicSize;
+        float screenWidth = camera.orthographicSize / Screen.height * Screen.width;
+        minXCamera = allColiderBounds.min.x + screenWidth;
+        maxXCamera = allColiderBounds.max.x - screenWidth;
+        minYCamera = allColiderBounds.min.y + screenHeight;
+        maxYCamera = allColiderBounds.max.y - screenHeight;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.position = new Vector3(
+            Mathf.Clamp(salaryMan.transform.position.x + deltaPosition, minXCamera, maxXCamera),
+            Mathf.Clamp(salaryMan.transform.position.y, minYCamera, maxYCamera), 
+            transform.position.z
+        );
+    }
+
+    public void FixedUpdate()
+    {
+        targetDeltaPosition = salaryManRender.transform.localScale.x * xPositionAdaptater;
+        float xPositionInFrontOfSalaryMan = salaryMan.transform.position.x + targetDeltaPosition;
+        if (xPositionInFrontOfSalaryMan < minXCamera)
+        {
+            targetDeltaPosition = minXCamera - transform.position.x;
+        }
+        if (xPositionInFrontOfSalaryMan > maxXCamera)
+        {
+            targetDeltaPosition = maxXCamera - transform.position.x;
+        }
+        deltaPosition += (targetDeltaPosition - deltaPosition) / cameraTransitionDuration;
     }
 }
