@@ -20,6 +20,5 @@ public class MainMenu : MonoBehaviour
     public static void loadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        Debug.Log("toto " + sceneName);
     }
 }

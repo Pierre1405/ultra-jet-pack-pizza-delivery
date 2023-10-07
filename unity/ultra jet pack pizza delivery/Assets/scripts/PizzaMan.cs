@@ -11,6 +11,8 @@ public class PizzaMan : MonoBehaviour
 {
 
     [SerializeField] public LayerMask plateformLayer;
+    [SerializeField] public LayerMask zeroGLayer;
+    public string zeroGLayerName;
     public string fuelLayerName;
 
     private Rigidbody2D rb;
@@ -24,12 +26,16 @@ public class PizzaMan : MonoBehaviour
     public float maximumFallSpeed;
     public GameObject character;
     private Animator characterAnimator;
-    private int lastRunningDirection;
 
 
     private InputActionPhase jumpButtonState = InputActionPhase.Canceled;
     private float xInput = 0;
     private bool isRefillColided;
+    private bool isBouncing;
+    private bool startBouncing;
+    private bool isGroundedBool = false;
+    private bool isZeroGBool = false;
+    private Vector2 bouncingVelocity = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -39,14 +45,10 @@ public class PizzaMan : MonoBehaviour
         characterAnimator = character.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     void FixedUpdate()
     {
-        bool isGroundedBool = isGrounded();
+        isGroundedBool = isGrounded();
+
         horizontalMovement.execute(xInput, rb, isGroundedBool);
         JumpStateTransition jumpState = jumpMovement.updateState(jumpButtonState, isGroundedBool, rb);
         JetPackStateTransition jetPackState = JetPackMovement.updateState(jumpButtonState, isGroundedBool, jumpState);
@@ -60,7 +62,7 @@ public class PizzaMan : MonoBehaviour
             rb.gravityScale = gravityScale * jetPackfallGravityScaleMultiplier;
         }
         else
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0 && !isBouncing && !isZeroGBool)
         {
             rb.gravityScale = gravityScale * fallGravityScaleMultiplier;
         } else
@@ -71,7 +73,12 @@ public class PizzaMan : MonoBehaviour
         {
             rb.AddForce((-maximumFallSpeed - rb.velocity.y) * Vector2.up, ForceMode2D.Impulse);
         }
-        #endregion
+
+        #region zeroG
+        rb.gravityScale = Mathf.Abs(rb.gravityScale) * (isZeroGBool ? -1 : 1);
+        #endregion zeroG
+
+        #endregion FallgravityScale
 
         jumpMovement.execute(rb);
         JetPackMovement.execute(rb, isRefillColided);
@@ -84,6 +91,19 @@ public class PizzaMan : MonoBehaviour
             character.transform.localScale = new Vector3(Mathf.Sign(xInput), 1, 1);
         }
         #endregion rotateCharacter
+
+        #region bouncing
+        if(startBouncing)
+        {
+            rb.AddForce(Vector2.up * bouncingVelocity.y, ForceMode2D.Impulse);
+            startBouncing = false;
+        }
+        if(isGroundedBool || isZeroGBool || jetPackState == JetPackStateTransition.Performed)
+        {
+            isBouncing = false;
+            bouncingVelocity = Vector2.zero;
+        }
+        #endregion bouncing
     }
 
     private bool isGrounded()
@@ -158,14 +178,18 @@ public class PizzaMan : MonoBehaviour
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log(LayerMask.LayerToName(collision.gameObject.layer) + ", " + fuelLayerName);
-        
+    {        
         if (LayerMask.LayerToName(collision.gameObject.layer) == fuelLayerName)
         {
             isRefillColided = true;
         }
+
+        if (LayerMask.LayerToName(collision.gameObject.layer) == zeroGLayerName)
+        {
+            isZeroGBool = true;
+        }
     }
+
 
     public void OnTriggerExit2D(Collider2D collision)
     {
@@ -173,19 +197,31 @@ public class PizzaMan : MonoBehaviour
         {
             isRefillColided = false;
         }
+
+        if (LayerMask.LayerToName(collision.gameObject.layer) == zeroGLayerName)
+        {
+            isZeroGBool = false;
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.collider.tag);
         if(collision.collider.tag == "death")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        } else if (collision.collider.tag == "bounce")
+        {
+            isBouncing = true;
+            startBouncing = true;
+            if(bouncingVelocity == Vector2.zero)
+            {
+                bouncingVelocity = collision.relativeVelocity;
+            }
+            Debug.Log(bouncingVelocity);
         }
     }
 
     public void OnCollisionExit2D(Collision2D collision)
     {
-
     }
 }

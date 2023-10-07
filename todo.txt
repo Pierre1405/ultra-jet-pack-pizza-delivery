@@ -1,20 +1,19 @@
 Code
-- menu
-- camera
-- bounce
-- zero g
+X menu
+X camera
+X bounce
+X zero g
 - ultra dash
 - train time table
 - level 0
 - level 5
 - level 10
-- camera
 - 
 
 Design
 - square animation
-	- stoped
-	- start running
+	X stoped
+	X start running
 	- running
 	- stop running
 	- jumping
@@ -22,12 +21,16 @@ Design
 - basic tiles
 - floor texture
 - sakura
+- plante
+- distributeur
 - building
 - working man
 - computer working man
 - erable
 - finish
-- pipe ???
 - bouncing
 - zero g
 - train table
+
+
+

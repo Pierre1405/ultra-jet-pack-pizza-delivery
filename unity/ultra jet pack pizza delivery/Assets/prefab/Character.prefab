@@ -201,6 +201,12 @@ MonoBehaviour:
   plateformLayer:
     serializedVersion: 2
     m_Bits: 8
+  zeroGLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  zeroGColider: {fileID: 0}
+  zeroGHitBox: {fileID: 0}
+  zeroGLayerName: ZeroG
   fuelLayerName: Fuel
   horizontalMovement: {fileID: 87555096970740537}
   jumpMovement: {fileID: 87555097464555764}

@@ -16,19 +16,16 @@ public class CameraBehavior : MonoBehaviour
     private float maxXCamera;
     private float minYCamera;
     private float maxYCamera;
-    private float targetPosition;
-    private float nextPosition;
-    private Camera camera;
     private Bounds allColiderBounds = new Bounds();
 
     void Start()
     {
-        camera = this.GetComponent<Camera>();
         Collider2D[] allColider = colliderParent.GetComponentsInChildren<Collider2D>();
         foreach(Collider2D collider in allColider)
         {
             allColiderBounds.Encapsulate(collider.bounds);
         }
+        Camera camera = GetComponent<Camera>();
         float screenHeight = camera.orthographicSize;
         float screenWidth = camera.orthographicSize / Screen.height * Screen.width;
         minXCamera = allColiderBounds.min.x + screenWidth;
