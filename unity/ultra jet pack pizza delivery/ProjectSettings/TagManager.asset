@@ -44,6 +44,18 @@ TagManager:
   - name: static background
     uniqueID: 1941446585
     locked: 0
+  - name: clouds
+    uniqueID: 39024895
+    locked: 0
+  - name: parallax 1
+    uniqueID: 317903327
+    locked: 0
+  - name: parallax 2
+    uniqueID: 4118169295
+    locked: 0
+  - name: ' parallax 3'
+    uniqueID: 1113387477
+    locked: 0
   - name: backround 2
     uniqueID: 585790955
     locked: 0

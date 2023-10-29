@@ -3,6 +3,7 @@ X menu
 X camera
 X bounce
 X zero g
+- paralax
 - ultra dash
 - train time table
 - level 0
@@ -18,12 +19,12 @@ Design
 	- stop running
 	- jumping
 	- flying
-- basic tiles
-- floor texture
+X basic tiles
+X floor texture
 - sakura
 - plante
 - distributeur
-- building
+X building
 - working man
 - computer working man
 - erable

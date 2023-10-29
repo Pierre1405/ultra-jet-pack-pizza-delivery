@@ -28,10 +28,10 @@ public class CameraBehavior : MonoBehaviour
         Camera camera = GetComponent<Camera>();
         float screenHeight = camera.orthographicSize;
         float screenWidth = camera.orthographicSize / Screen.height * Screen.width;
-        minXCamera = allColiderBounds.min.x + screenWidth;
-        maxXCamera = allColiderBounds.max.x - screenWidth;
-        minYCamera = allColiderBounds.min.y + screenHeight;
-        maxYCamera = allColiderBounds.max.y - screenHeight;
+        minXCamera = allColiderBounds.min.x + screenWidth + 1;
+        maxXCamera = allColiderBounds.max.x - screenWidth - 1;
+        minYCamera = allColiderBounds.min.y + screenHeight + 1;
+        maxYCamera = allColiderBounds.max.y - screenHeight - 1;
     }
 
     void Update()
