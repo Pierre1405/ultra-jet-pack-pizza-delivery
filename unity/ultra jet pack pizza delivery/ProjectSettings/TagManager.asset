@@ -59,10 +59,10 @@ TagManager:
   - name: parallax 3
     uniqueID: 1113387477
     locked: 0
-  - name: backround 2
+  - name: habitation
     uniqueID: 585790955
     locked: 0
-  - name: background 1
+  - name: habitation decoration
     uniqueID: 1701007847
     locked: 0
   - name: level
