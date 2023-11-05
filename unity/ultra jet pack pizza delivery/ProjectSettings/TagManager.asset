@@ -62,8 +62,11 @@ TagManager:
   - name: habitation
     uniqueID: 585790955
     locked: 0
-  - name: habitation decoration
+  - name: decoration 1
     uniqueID: 1701007847
+    locked: 0
+  - name: decoration 2
+    uniqueID: 3734769693
     locked: 0
   - name: level
     uniqueID: 3351268919
